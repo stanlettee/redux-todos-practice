@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
+  "homepage": "https://stanlettee.github.io/redux-todos-practice/",
   "main": "src/index.js",
   "dependencies": {
     "@redux-devtools/extension": "3.2.3",
