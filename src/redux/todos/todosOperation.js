@@ -1,67 +1,79 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "https://6a00a74f36fb6ad04de05a5c.mockapi.io/";
+axios.defaults.baseURL = "https://69ff4c7c2b7ab349602f7904.mockapi.io";
 
 export const fetchTodos = createAsyncThunk(
-  "todos/fetchTodos", 
-  async (_, thunkAPI) => {
+  "todos/fetchTodos",
+  async (__, thunkAPI) => {
     try {
-      const fetchData = await axios.get(`${baseUrl}/todos`);
-      const data = fetchData.data
+      const fetchTodos = await axios.get("/todos");
+      const data = fetchTodos.data;
       console.log(data);
-      
-      return data
+
+      return data;
     } catch (err) {
-       return thunkAPI.rejectWithValue(err.massage)
+      return thunkAPI.rejectWithValue(err.massage);
     }
-  },
+  }
 );
-
-
-export const addTodos = createAsyncThunk(
-  "todos/addTodos", 
-  async (todoData, thunkAPI) => {
-    try {
-      const fetchData = await axios.post(`${baseUrl}/todos`, todoData);
-      const data = fetchData.data
-      console.log(data);
-      
-      return data
-    } catch (err) {
-       return thunkAPI.rejectWithValue(err.massage)
-    }
-  },
-);
-
 
 export const removeTodos = createAsyncThunk(
-  "todos/removeTodos", 
+  "todos/removeTodos",
   async (todoId, thunkAPI) => {
     try {
-      const fetchData = await axios.delete(`${baseUrl}/todos/${todoId}`, todoId);
-      const data = fetchData.data
+      const response = await axios.delete(`/todos/${todoId}`);
+      const data = response.data;
       console.log(data);
-      
-      return todoId
+
+      return data;
     } catch (err) {
-       return thunkAPI.rejectWithValue(err.massage)
+      return thunkAPI.rejectWithValue(err.massage);
     }
-  },
+  }
 );
 
-export const changeTodo = createAsyncThunk(
-    "todos/changeTodo",
-    async(todoId, thunkAPI) => {
-        try {
-          const fetchData = await axios.put(`${baseUrl}/todos/${todoId}`, todoId);
-          const data = fetchData.data
-          
-          return data
-        } catch {
-          return thunkAPI.rejectWithValue(err.massage)
-        }
-    }      
-)
+export const addTodos = createAsyncThunk(
+  "todos/addTodos",
+  async (pokemonData, thunkAPI) => {
+    try {
+      const fetchTodos = await axios.post(`/todos`, pokemonData);
+      console.log(pokemonData);
 
+      const data = fetchTodos.data;
+      console.log(data);
 
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.massage);
+    }
+  }
+);
+
+export const changeTodos = createAsyncThunk(
+  "todos/changeTodo",
+  async (changedTodo, thunkAPI) => {
+    try {
+      const response = await axios.put(`/todos/${changedTodo.id}`, changedTodo); //! записуємо в базу даних і робитьься рефеч
+      const data = response.data;
+      console.log(data);
+
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.massage);
+    }
+  }
+);
+
+export const updateTodo = createAsyncThunk(
+  "todos/updateTodo",
+  async (updatedTodo, thunkAPI) => {
+    try {
+      const response = await axios.put(`/todos/${updatedTodo.id}`, updatedTodo);
+      const data = response.data;
+      return data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.massage);
+    }
+  }
+);
